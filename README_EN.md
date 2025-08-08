@@ -190,7 +190,7 @@ Build boot.img, and you need to provide a `Source boot image`.
 
 As the name suggests, it provides a boot image source system that can boot normally and requires a direct chain, preferably from the same kernel source and AOSP device tree as your current system. Ramdisk contains the partition table and init, without which the compiled image will not boot up properly.
 
-For example: https://raw.githubusercontent.com/xiaoleGun/KernelSU_action/main/boot/boot-wayne-from-Miku-UI-latest.img
+For example: https://raw.githubusercontent.com/xiaoleGun/KernelSU_action/main/boot/boot.img
 
 ## Thanks
 

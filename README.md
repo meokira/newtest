@@ -202,7 +202,7 @@ LTO 用于优化内核，但有些时候会导致错误
 
 故名思义，提供一个源系统可以正常开机的 boot 镜像，需要直链，最好是同一套内核源码以及与你当前系统同一套设备树从 aosp 构建出来的。ramdisk 里面包含分区表以及 init，没有的话构建出来的镜像会无法正常引导。
 
-例如: https://raw.githubusercontent.com/xiaoleGun/KernelSU_action/main/boot/boot-wayne-from-Miku-UI-latest.img
+例如: https://raw.githubusercontent.com/xiaoleGun/KernelSU_action/main/boot/boot.img
 
 ## 感谢
 
