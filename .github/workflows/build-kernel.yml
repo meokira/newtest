@@ -96,8 +96,8 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         mkdir clang-aosp
-        wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/${{ env.CLANG_BRANCH }}/clang-${{ env.CLANG_VERSION }}.tar.gz
-        tar -C clang-aosp/ -zxvf clang-${{ env.CLANG_VERSION }}.tar.gz
+        wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/${{ env.CLANG_VERSION }}.tar.gz
+        tar -C clang-aosp/ -zxvf ${{ env.CLANG_VERSION }}.tar.gz
 
     - name: Download Custom-Clang
       if: env.USE_CUSTOM_CLANG == 'true'
@@ -115,6 +115,29 @@ jobs:
             wget -O clang.zip ${{ env.CUSTOM_CLANG_SOURCE }}
             mkdir clang-aosp
             unzip clang.zip -d clang-aosp/
+        fi
+
+    - name: Setup PATH for Toolchains
+      run: |
+        # Clang PATH (always, unless custom GCC overrides)
+        if [ -d "$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin" ]; then
+            echo "CLANG_PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin" >> $GITHUB_ENV
+            echo "$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin" >> $GITHUB_PATH
+        fi
+        # GCC 64 PATH (if enabled)
+        if [ -n "$GCC_64" ] && [ -d "$GITHUB_WORKSPACE/kernel_workspace/gcc-64/bin" ]; then
+            echo "$GITHUB_WORKSPACE/kernel_workspace/gcc-64/bin" >> $GITHUB_PATH
+        fi
+        # GCC 32 PATH (if enabled)
+        if [ -n "$GCC_32" ] && [ -d "$GITHUB_WORKSPACE/kernel_workspace/gcc-32/bin" ]; then
+            echo "$GITHUB_WORKSPACE/kernel_workspace/gcc-32/bin" >> $GITHUB_PATH
+        fi
+        # Verify Clang
+        if command -v clang &> /dev/null; then
+            echo "Clang found: $(clang --version | head -n1)"
+        else
+            echo "Error: Clang not in PATH!"
+        exit 1
         fi
 
     - name: Download Gcc-aosp
