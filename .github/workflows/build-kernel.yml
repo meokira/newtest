@@ -194,9 +194,10 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         wget -O boot-source.img ${{ env.SOURCE_BOOT_IMAGE }}
-        wget -O ramdisk-orgin.img https://github.com/hkwucbytcsre/testfile/raw/refs/heads/main/ramdisk.img
+        wget -O ramdisk.img https://github.com/hkwucbytcsre/testfile/raw/refs/heads/main/ramdisk.img
+        cp ramdisk.img android-kernel/out/ramdisk
         if [ -f boot-source.img ]; then
-            echo "FORMAT_MKBOOTING=$(echo `tools/unpack_bootimg.py --boot_img=boot-source.img --ramdisk ramdisk-orgin.img --format mkbootimg`)" >> $GITHUB_ENV
+            echo "FORMAT_MKBOOTING=$(echo `tools/unpack_bootimg.py --boot_img=boot-source.img --format mkbootimg`)" >> $GITHUB_ENV
             echo "HAVE_SOURCE_BOOT_IMAGE=true" >> $GITHUB_ENV
         fi
 
